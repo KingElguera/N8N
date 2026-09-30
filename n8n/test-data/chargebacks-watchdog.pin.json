@@ -1,0 +1,22 @@
+{
+  "Veille quotidienne": [
+    { "json": { "timestamp": "2026-09-30T08:00:00.000+02:00", "Readable date": "30 septembre 2026, 08:00", "Day of week": "Wednesday" } }
+  ],
+  "Lire dossiers incomplets": [
+    { "json": { "dossier_id": "CB-2026-101", "commande_id": "CMD-48213", "client": "Julie Martin (fictif)", "montant": 189.9, "motif": "produit_non_recu", "date_reception": "2026-09-12", "date_echeance": "2026-10-02", "statut": "incomplet" } },
+    { "json": { "dossier_id": "CB-2026-102", "commande_id": "CMD-48377", "client": "Karim Benali (fictif)", "montant": 74.5, "motif": "non_conforme", "date_reception": "2026-09-20", "date_echeance": "2026-10-10", "statut": "incomplet" } },
+    { "json": { "dossier_id": "CB-2026-103", "commande_id": "CMD-47950", "client": "Sophie Durand (fictif)", "montant": 320.0, "motif": "fraude", "date_reception": "2026-09-01", "date_echeance": "2026-09-25", "statut": "incomplet" } }
+  ],
+  "IA - Rédiger réponse (best-effort)": [
+    { "json": { "id": "msg_fictif_001", "type": "message", "role": "assistant", "model": "claude-sonnet-5", "content": [ { "type": "text", "text": "Madame, Monsieur, nous contestons le chargeback CB-2026-101 : la commande CMD-48213 a été expédiée le 05/09/2026 et livrée le 08/09/2026 (preuve de livraison jointe). (réponse fictive)" } ], "stop_reason": "end_turn" } }
+  ],
+  "Marquer soumis forcé": [
+    { "json": { "dossier_id": "CB-2026-101", "statut": "soumis_force", "reponse": "Madame, Monsieur, nous contestons le chargeback CB-2026-101 ... (réponse fictive)" } }
+  ],
+  "Alerter gérant - envoi forcé": [
+    { "json": { "id": "gmail-fictif-001", "threadId": "gmail-fictif-001", "labelIds": ["SENT"] } }
+  ],
+  "Alerter gérant - rappel validation": [
+    { "json": { "id": "gmail-fictif-002", "threadId": "gmail-fictif-002", "labelIds": ["SENT"] } }
+  ]
+}
