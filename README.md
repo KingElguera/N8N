@@ -8,6 +8,18 @@ Ce repository contient des workflows n8n, au format TypeScript (`@n8n/workflow-s
 | `n8n/workflows/chargebacks-main.workflow.ts` | Traitement principal : classe les emails entrants, monte le dossier de chargeback et rédige la réponse |
 | `n8n/workflows/chargebacks-watchdog.workflow.ts` | Veille quotidienne : relance ou soumet d'office les dossiers incomplets proches de l'échéance |
 
+## Prérequis (à faire une fois)
+
+1. Une instance n8n **2.18 ou plus récente**, avec une clé API (**Settings → n8n API**) et l'accès MCP activé (**Settings → MCP**, pour obtenir l'access token).
+2. Le CLI : `npm install -g @workflows-accelerator/n8n-cli@1.2.40`
+3. Récupérer l'ID de votre projet n8n, puis initialiser le repo **avec cet ID** (le fichier `n8n/config/n8n-cli.json` versionné pointe vers l'instance de l'auteur) :
+
+```bash
+n8ncli init --url <URL_N8N> --access-token <ACCESS_TOKEN> --api-key <API_KEY> --no-examples
+n8ncli projects      # noter l'ID du projet
+n8ncli init --url <URL_N8N> --access-token <ACCESS_TOKEN> --api-key <API_KEY> --project-id <ID_PROJET> --no-examples
+```
+
 ## Tester avec des données fictives
 
 Les nœuds externes (Gmail, Google Sheets, IA) utilisent des données fictives épinglées (`n8n/test-data/`) : aucun compte réel n'est nécessaire. La logique (Code, If, Switch, Filter, Set, Merge) s'exécute réellement.
