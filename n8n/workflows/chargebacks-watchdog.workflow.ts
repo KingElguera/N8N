@@ -1,12 +1,12 @@
 const veille_quotidienne = trigger({
   type: 'n8n-nodes-base.scheduleTrigger',
-  version: 1.2,
+  version: 1.3,
   config: { name: 'Veille quotidienne', position: [-800, 0] }
 });
 
 const lire_dossiers_incomplets = node({
   type: 'n8n-nodes-base.googleSheets',
-  version: 4.5,
+  version: 4.7,
   config: { name: 'Lire dossiers incomplets', position: [-560, 0] }
 });
 
@@ -18,37 +18,37 @@ const calculer_jours_restants = node({
 
 const filtrer_dossiers_traiter = node({
   type: 'n8n-nodes-base.filter',
-  version: 2.2,
+  version: 2.3,
   config: { name: 'Filtrer dossiers à traiter', position: [-80, 0] }
 });
 
 const ch_ance_J_3_ou_moins = node({
   type: 'n8n-nodes-base.if',
-  version: 2.2,
+  version: 2.3,
   config: { name: 'Échéance à J-3 ou moins ?', position: [160, 0] }
 });
 
 const iA_R_diger_r_ponse_best_effort = node({
   type: 'n8n-nodes-base.httpRequest',
-  version: 4.2,
+  version: 4.4,
   config: { name: 'IA - Rédiger réponse (best-effort)', position: [400, -100] }
 });
 
 const marquer_soumis_forc = node({
   type: 'n8n-nodes-base.googleSheets',
-  version: 4.5,
+  version: 4.7,
   config: { name: 'Marquer soumis forcé', position: [640, -100] }
 });
 
 const alerter_g_rant_envoi_forc = node({
   type: 'n8n-nodes-base.gmail',
-  version: 2.1,
+  version: 2.2,
   config: { name: 'Alerter gérant - envoi forcé', position: [880, -100] }
 });
 
 const alerter_g_rant_rappel_validation = node({
   type: 'n8n-nodes-base.gmail',
-  version: 2.1,
+  version: 2.2,
   config: { name: 'Alerter gérant - rappel validation', position: [400, 100] }
 });
 

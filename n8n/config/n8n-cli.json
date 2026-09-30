@@ -1,0 +1,6 @@
+{
+  "env": "development",
+  "localDir": "n8n",
+  "projectId": "personal",
+  "projectName": "Personal"
+}
