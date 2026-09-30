@@ -1,11 +1,12 @@
 {
   "name": "n8n-lucas",
   "version": "1.0.0",
-  "description": "",
+  "description": "Workflows n8n de traitement des chargebacks, au format TypeScript (n8ncli 1.2.40)",
   "main": "index.js",
   "scripts": {
     "start": "n8n start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "validate": "n8ncli validate",
+    "test": "node scripts/test-all.mjs"
   },
   "keywords": [],
   "author": "",
