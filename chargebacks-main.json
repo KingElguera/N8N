@@ -1,0 +1,81 @@
+{
+  "name": "Chargebacks - Traitement principal",
+  "nodes": [
+    { "id": "trigger_gmail", "name": "Nouvel email", "type": "n8n-nodes-base.gmailTrigger", "typeVersion": 1.2, "position": [-1400, 0], "parameters": {} },
+    { "id": "http_classify", "name": "IA - Classifier email", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [-1160, 0], "parameters": {} },
+    { "id": "code_parse_classify", "name": "Extraire catégorie", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [-920, 0], "parameters": {} },
+    { "id": "switch_categorie", "name": "Router selon catégorie", "type": "n8n-nodes-base.switch", "typeVersion": 3.2, "position": [-680, 0], "parameters": {} },
+    { "id": "sheet_log_faux_litige", "name": "Logguer faux litige", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [-440, -220], "parameters": {} },
+    { "id": "gmail_notify_faux_litige", "name": "Alerter gérant - faux litige", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [-200, -220], "parameters": {} },
+    { "id": "http_extract_info", "name": "IA - Extraire infos dossier", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [-440, 40], "parameters": {} },
+    { "id": "code_parse_extraction", "name": "Normaliser dossier", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [-200, 40], "parameters": {} },
+    { "id": "sheet_find_order", "name": "Chercher la commande", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [40, 40], "parameters": {} },
+    { "id": "if_order_found", "name": "Commande trouvée ?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [280, 40], "parameters": {} },
+    { "id": "sheet_log_incomplet_no_order", "name": "Logguer incomplet (commande introuvable)", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [520, 220], "parameters": {} },
+    { "id": "gmail_notify_incomplet_no_order", "name": "Alerter gérant - commande introuvable", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [760, 220], "parameters": {} },
+    { "id": "if_seuil_montant", "name": "Montant sous le seuil ?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [520, 40], "parameters": {} },
+    { "id": "sheet_log_accepte", "name": "Logguer accepté (sous le seuil)", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [760, -20], "parameters": {} },
+    { "id": "set_preuves_base", "name": "Preuves de base (facture+livraison)", "type": "n8n-nodes-base.set", "typeVersion": 3.4, "position": [760, 140], "parameters": {} },
+    { "id": "if_motif_non_conforme", "name": "Motif = non conforme ?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [1000, 140], "parameters": {} },
+    { "id": "gmail_search_sav", "name": "Chercher échanges SAV", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [1240, 60], "parameters": {} },
+    { "id": "sheet_produit_politique", "name": "Fiche produit + politique retour", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [1240, 220], "parameters": {} },
+    { "id": "merge_preuves", "name": "Fusionner preuves", "type": "n8n-nodes-base.merge", "typeVersion": 3, "position": [1480, 140], "parameters": {} },
+    { "id": "code_completude", "name": "Vérifier complétude dossier", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [1720, 140], "parameters": {} },
+    { "id": "if_complet", "name": "Dossier complet ?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [1960, 140], "parameters": {} },
+    { "id": "http_redaction_complete", "name": "IA - Rédiger réponse (complet)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [2200, 60], "parameters": {} },
+    { "id": "sheet_update_soumis", "name": "Marquer soumis automatiquement", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [2440, 60], "parameters": {} },
+    { "id": "http_redaction_incomplete", "name": "IA - Rédiger réponse (incomplet)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [2200, 220], "parameters": {} },
+    { "id": "sheet_update_incomplet", "name": "Marquer incomplet (attente validation)", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [2440, 220], "parameters": {} },
+    { "id": "gmail_notify_incomplet", "name": "Alerter gérant - validation requise", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [2680, 220], "parameters": {} }
+  ],
+  "connections": {
+    "Nouvel email": { "main": [[{ "node": "IA - Classifier email", "type": "main", "index": 0 }]] },
+    "IA - Classifier email": { "main": [[{ "node": "Extraire catégorie", "type": "main", "index": 0 }]] },
+    "Extraire catégorie": { "main": [[{ "node": "Router selon catégorie", "type": "main", "index": 0 }]] },
+    "Router selon catégorie": {
+      "main": [
+        [{ "node": "IA - Extraire infos dossier", "type": "main", "index": 0 }],
+        [{ "node": "Logguer faux litige", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Logguer faux litige": { "main": [[{ "node": "Alerter gérant - faux litige", "type": "main", "index": 0 }]] },
+    "IA - Extraire infos dossier": { "main": [[{ "node": "Normaliser dossier", "type": "main", "index": 0 }]] },
+    "Normaliser dossier": { "main": [[{ "node": "Chercher la commande", "type": "main", "index": 0 }]] },
+    "Chercher la commande": { "main": [[{ "node": "Commande trouvée ?", "type": "main", "index": 0 }]] },
+    "Commande trouvée ?": {
+      "main": [
+        [{ "node": "Montant sous le seuil ?", "type": "main", "index": 0 }],
+        [{ "node": "Logguer incomplet (commande introuvable)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Logguer incomplet (commande introuvable)": { "main": [[{ "node": "Alerter gérant - commande introuvable", "type": "main", "index": 0 }]] },
+    "Montant sous le seuil ?": {
+      "main": [
+        [{ "node": "Logguer accepté (sous le seuil)", "type": "main", "index": 0 }],
+        [{ "node": "Preuves de base (facture+livraison)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Preuves de base (facture+livraison)": { "main": [[{ "node": "Motif = non conforme ?", "type": "main", "index": 0 }]] },
+    "Motif = non conforme ?": {
+      "main": [
+        [{ "node": "Chercher échanges SAV", "type": "main", "index": 0 }, { "node": "Fiche produit + politique retour", "type": "main", "index": 0 }],
+        [{ "node": "Fusionner preuves", "type": "main", "index": 0 }]
+      ]
+    },
+    "Chercher échanges SAV": { "main": [[{ "node": "Fusionner preuves", "type": "main", "index": 0 }]] },
+    "Fiche produit + politique retour": { "main": [[{ "node": "Fusionner preuves", "type": "main", "index": 1 }]] },
+    "Fusionner preuves": { "main": [[{ "node": "Vérifier complétude dossier", "type": "main", "index": 0 }]] },
+    "Vérifier complétude dossier": { "main": [[{ "node": "Dossier complet ?", "type": "main", "index": 0 }]] },
+    "Dossier complet ?": {
+      "main": [
+        [{ "node": "IA - Rédiger réponse (complet)", "type": "main", "index": 0 }],
+        [{ "node": "IA - Rédiger réponse (incomplet)", "type": "main", "index": 0 }]
+      ]
+    },
+    "IA - Rédiger réponse (complet)": { "main": [[{ "node": "Marquer soumis automatiquement", "type": "main", "index": 0 }]] },
+    "IA - Rédiger réponse (incomplet)": { "main": [[{ "node": "Marquer incomplet (attente validation)", "type": "main", "index": 0 }]] },
+    "Marquer incomplet (attente validation)": { "main": [[{ "node": "Alerter gérant - validation requise", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

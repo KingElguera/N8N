@@ -1,0 +1,29 @@
+{
+  "name": "Chargebacks - Veille échéances",
+  "nodes": [
+    { "id": "trigger_daily", "name": "Veille quotidienne", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.2, "position": [-800, 0], "parameters": {} },
+    { "id": "sheet_get_incomplets", "name": "Lire dossiers incomplets", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [-560, 0], "parameters": {} },
+    { "id": "code_jours_restants", "name": "Calculer jours restants", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [-320, 0], "parameters": {} },
+    { "id": "filter_a_traiter", "name": "Filtrer dossiers à traiter", "type": "n8n-nodes-base.filter", "typeVersion": 2.2, "position": [-80, 0], "parameters": {} },
+    { "id": "if_j3", "name": "Échéance à J-3 ou moins ?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [160, 0], "parameters": {} },
+    { "id": "http_redaction_forcee", "name": "IA - Rédiger réponse (best-effort)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [400, -100], "parameters": {} },
+    { "id": "sheet_update_force", "name": "Marquer soumis forcé", "type": "n8n-nodes-base.googleSheets", "typeVersion": 4.5, "position": [640, -100], "parameters": {} },
+    { "id": "gmail_notify_force", "name": "Alerter gérant - envoi forcé", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [880, -100], "parameters": {} },
+    { "id": "gmail_notify_rappel", "name": "Alerter gérant - rappel validation", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [400, 100], "parameters": {} }
+  ],
+  "connections": {
+    "Veille quotidienne": { "main": [[{ "node": "Lire dossiers incomplets", "type": "main", "index": 0 }]] },
+    "Lire dossiers incomplets": { "main": [[{ "node": "Calculer jours restants", "type": "main", "index": 0 }]] },
+    "Calculer jours restants": { "main": [[{ "node": "Filtrer dossiers à traiter", "type": "main", "index": 0 }]] },
+    "Filtrer dossiers à traiter": { "main": [[{ "node": "Échéance à J-3 ou moins ?", "type": "main", "index": 0 }]] },
+    "Échéance à J-3 ou moins ?": {
+      "main": [
+        [{ "node": "IA - Rédiger réponse (best-effort)", "type": "main", "index": 0 }],
+        [{ "node": "Alerter gérant - rappel validation", "type": "main", "index": 0 }]
+      ]
+    },
+    "IA - Rédiger réponse (best-effort)": { "main": [[{ "node": "Marquer soumis forcé", "type": "main", "index": 0 }]] },
+    "Marquer soumis forcé": { "main": [[{ "node": "Alerter gérant - envoi forcé", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}
