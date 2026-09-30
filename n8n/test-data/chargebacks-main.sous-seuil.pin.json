@@ -1,0 +1,204 @@
+{
+  "IA - Rédiger réponse (complet)": [
+    {
+      "json": {
+        "id": "msg_fictif",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-5",
+        "content": [
+          {
+            "type": "text",
+            "text": "Madame, Monsieur, nous contestons ce chargeback : facture, preuve de livraison, échanges SAV et politique de retour joints. (réponse fictive)"
+          }
+        ],
+        "stop_reason": "end_turn"
+      }
+    }
+  ],
+  "IA - Rédiger réponse (incomplet)": [
+    {
+      "json": {
+        "id": "msg_fictif",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-5",
+        "content": [
+          {
+            "type": "text",
+            "text": "Madame, Monsieur, nous contestons ce chargeback. [PIÈCE MANQUANTE : preuve de livraison] (brouillon fictif)"
+          }
+        ],
+        "stop_reason": "end_turn"
+      }
+    }
+  ],
+  "Marquer soumis automatiquement": [
+    {
+      "json": {
+        "statut": "soumis"
+      }
+    }
+  ],
+  "Marquer incomplet (attente validation)": [
+    {
+      "json": {
+        "statut": "incomplet"
+      }
+    }
+  ],
+  "Alerter gérant - validation requise": [
+    {
+      "json": {
+        "id": "gmail-fictif-validation",
+        "threadId": "gmail-fictif-validation",
+        "labelIds": [
+          "SENT"
+        ]
+      }
+    }
+  ],
+  "Logguer accepté (sous le seuil)": [
+    {
+      "json": {
+        "statut": "accepte_sous_seuil"
+      }
+    }
+  ],
+  "Logguer incomplet (commande introuvable)": [
+    {
+      "json": {
+        "statut": "incomplet"
+      }
+    }
+  ],
+  "Alerter gérant - commande introuvable": [
+    {
+      "json": {
+        "id": "gmail-fictif-introuvable",
+        "threadId": "gmail-fictif-introuvable",
+        "labelIds": [
+          "SENT"
+        ]
+      }
+    }
+  ],
+  "Logguer faux litige": [
+    {
+      "json": {
+        "logue": true
+      }
+    }
+  ],
+  "Alerter gérant - faux litige": [
+    {
+      "json": {
+        "id": "gmail-fictif-faux-litige",
+        "threadId": "gmail-fictif-faux-litige",
+        "labelIds": [
+          "SENT"
+        ]
+      }
+    }
+  ],
+  "Chercher échanges SAV": [
+    {
+      "json": {
+        "id": "sav-fictif-1",
+        "snippet": "Bonjour, le casque grésille côté gauche...",
+        "From": "julie.martin@client-fictif.fr",
+        "Subject": "Problème casque"
+      }
+    },
+    {
+      "json": {
+        "id": "sav-fictif-2",
+        "snippet": "Bonjour Julie, nous vous proposons un échange standard...",
+        "From": "sav@boutique-fictive.fr",
+        "Subject": "Re: Problème casque"
+      }
+    }
+  ],
+  "Fiche produit + politique retour": [
+    {
+      "json": {
+        "sku": "SKU-CASQUE-01",
+        "nom": "Casque audio BT (fictif)",
+        "description": "Casque Bluetooth, autonomie 30 h",
+        "politique_retour": "Retour ou échange sous 30 jours, produit défectueux remplacé"
+      }
+    }
+  ],
+  "Nouvel email": [
+    {
+      "json": {
+        "id": "mail-fictif-940257889",
+        "threadId": "thread-fictif",
+        "subject": "Notification de litige CMD-48500",
+        "text": "Un litige a été ouvert sur la commande CMD-48500 pour 12.9 EUR. Motif : fraude. Réponse attendue avant le 2026-10-15.",
+        "from": {
+          "value": [
+            {
+              "address": "disputes@psp-fictif.com",
+              "name": ""
+            }
+          ],
+          "text": "disputes@psp-fictif.com"
+        },
+        "date": "2026-09-30T09:12:00.000Z"
+      }
+    }
+  ],
+  "IA - Classifier email": [
+    {
+      "json": {
+        "id": "msg_fictif",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-5",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"categorie\":\"chargeback\",\"confiance\":0.96,\"raison\":\"notification PSP de litige\"}"
+          }
+        ],
+        "stop_reason": "end_turn"
+      }
+    }
+  ],
+  "IA - Extraire infos dossier": [
+    {
+      "json": {
+        "id": "msg_fictif",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-5",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"reference_litige\":\"CB-2026-2500\",\"commande_id\":\"CMD-48500\",\"montant\":\"12,9\",\"devise\":\"EUR\",\"motif\":\"fraude\",\"date_echeance\":\"2026-10-15\"}"
+          }
+        ],
+        "stop_reason": "end_turn"
+      }
+    }
+  ],
+  "Chercher la commande": [
+    {
+      "json": {
+        "commande_id": "CMD-48500",
+        "client": "Julie Martin (fictif)",
+        "email_client": "julie.martin@client-fictif.fr",
+        "produit_sku": "SKU-CASQUE-01",
+        "montant": 12.9,
+        "date_commande": "2026-09-02",
+        "date_expedition": "2026-09-05",
+        "date_livraison": "2026-09-08",
+        "transporteur": "Colissimo",
+        "numero_suivi": "6A00000000001",
+        "facture_url": "https://exemple-fictif.fr/factures/CMD-48213.pdf",
+        "preuve_livraison_url": "https://exemple-fictif.fr/livraisons/6A00000000001.pdf"
+      }
+    }
+  ]
+}
