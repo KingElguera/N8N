@@ -22,7 +22,7 @@ const format_Passages = node({
   config: { name: 'Format Passages', parameters: { jsCode: '// Met en forme les passages trouvés pour l\'agent (texte + d\'où vient chaque résultat)\nconst rows = $input.all().map((item) => item.json).filter((row) => row.content);\n\nif (rows.length === 0) {\n  return [{ json: { response: \'Aucun passage trouvé pour cette recherche.\' } }];\n}\n\nconst rank = (r) => (r === null || r === undefined ? \'—\' : `#${r}`);\nconst response = rows\n  .map((row, i) => `Passage ${i + 1} — ${(row.metadata && row.metadata.title) || \'livre inconnu\'} (mots-clés ${rank(row.keyword_rank)} · sens ${rank(row.semantic_rank)})\\n${row.content}`)\n  .join(\'\\n\\n---\\n\\n\');\n\nreturn [{ json: { response } }];' }, position: [640, 0] }
 });
 
-const wf = workflow('M5BiKBM35ZtjqoCF', 'RAG - Hybrid Search', { executionOrder: 'v1', availableInMCP: true, binaryMode: 'separate' });
+const wf = workflow('M5BiKBM35ZtjqoCF', 'RAG Livres - Recherche hybride', { executionOrder: 'v1', availableInMCP: true, binaryMode: 'separate' });
 
 export default wf
   .add(search_Request)

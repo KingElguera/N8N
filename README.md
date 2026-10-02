@@ -1,3 +1,7 @@
+> **Ce dépôt contient deux projets n8n :**
+> - 📚 **Chatbot RAG sur des livres** (ingestion, recherche hybride, answering) → [RAG-LIVRES.md](RAG-LIVRES.md)
+> - 💳 **Chargebacks** → ci-dessous
+
 # Chargebacks — workflows n8n
 
 Automatisation du traitement des **chargebacks** (litiges bancaires) d'une boutique en ligne : détection des emails de litige, constitution du dossier de preuves, rédaction de la réponse par IA, et veille des échéances.
@@ -87,7 +91,7 @@ n8ncli test n8n/workflows/chargebacks-main.workflow.ts --pin-data n8n/test-data/
 
 ```
 n8n/
-  workflows/     les 2 workflows (TypeScript)
+  workflows/     les workflows TypeScript (Chargebacks + RAG Livres)
   test-data/     les 6 scénarios de données fictives
   config/        configuration de n8ncli (standards, mise en page, projet)
 scripts/
